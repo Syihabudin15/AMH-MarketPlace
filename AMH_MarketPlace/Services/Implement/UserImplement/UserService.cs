@@ -46,7 +46,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while Create User");
             }
         }
 
@@ -76,7 +76,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while get my User data");
             }
         }
 
@@ -103,7 +103,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while update User Address");
             }
         }
 
@@ -117,7 +117,36 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error get my Notification");
+            }
+        }
+
+        public async Task<UserResponse> GetById(Guid id)
+        {
+            try
+            {
+                var userFind = await _repository.Find(u => u.Id.Equals(id), new[] {"Address", "Credential.Role"});
+                if (userFind == null) throw new NotFoundException("User not found");
+                return new UserResponse
+                {
+                    Id = userFind.Id.ToString(),
+                    Name = userFind.FirstName,
+                    PhoneNumber = userFind.PhoneNumber,
+                    Address = new()
+                    {
+                        Id = userFind.Address.Id.ToString(),
+                        Address1 = userFind.Address.Address1,
+                        Address2 = userFind.Address.Address2,
+                        City = userFind.Address.City,
+                        PostCode = userFind.Address.PostCode
+                    },
+                    Email = userFind.Credential.Email,
+                    Role = userFind.Credential.Role.Name
+                };
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error while get user by id");
             }
         }
     }

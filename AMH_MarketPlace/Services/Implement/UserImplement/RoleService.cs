@@ -27,7 +27,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while get or save Role");
             }
         }
     }

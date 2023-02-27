@@ -1,5 +1,6 @@
 ﻿using AMH_MarketPlace.DTOs.UserDto;
 using AMH_MarketPlace.Entities.Store;
+using AMH_MarketPlace.Entities.Store.Product;
 
 namespace AMH_MarketPlace.DTOs.StoreDto
 {

@@ -1,9 +1,11 @@
 ﻿using AMH_MarketPlace.DTOs.StoreDto;
+using AMH_MarketPlace.DTOs.BankDto.WalletDto;
 using AMH_MarketPlace.Entities.Store;
 using AMH_MarketPlace.Repositories;
 using AMH_MarketPlace.Services.Interface.StoreInterface;
 using AMH_MarketPlace.Services.Interface.UserInterface;
 using AMH_MarketPlace.CustomExceptions.ExceptionsHandlers;
+using AMH_MarketPlace.Services.Interface.WalletInterface;
 
 namespace AMH_MarketPlace.Services.Implement.StoreImplement
 {
@@ -14,25 +16,28 @@ namespace AMH_MarketPlace.Services.Implement.StoreImplement
         private readonly IUserService _userService;
         private readonly IRateService _rateService;
         private readonly IStoreImageService _storeImageService;
+        private readonly IUserWalletService _userWalletService;
         public StoreService(
             IRepository<Store> repository,
             IDbPersistence dbPersistence,
             IUserService userService,
             IRateService rateService,
-            IStoreImageService storeImageService)
+            IStoreImageService storeImageService,
+            IUserWalletService userWalletService)
         {
             _repository = repository;
             _dbPersistence = dbPersistence;
             _userService = userService;
             _rateService = rateService;
             _storeImageService = storeImageService;
+            _userWalletService = userWalletService;
         }
 
         public async Task<StoreResponse> CreateStore(StoreRequest req, string email)
         {
             try
             {
-                var saveStore = await _dbPersistence.ExecuteTransactionAsync(async () =>
+                var transacCreateStore = await _dbPersistence.ExecuteTransactionAsync(async () =>
                 {
                     var user = await _userService.GetMyUser(email);
                     if (user == null) throw new NotFoundException("User not found");
@@ -48,6 +53,17 @@ namespace AMH_MarketPlace.Services.Implement.StoreImplement
                         RateStoreId = rate.Id,
                         UserId = Guid.Parse(user.Id)
                     });
+                    var saveWallet = 
+                    await _userWalletService.CreateUserWallet(new WalletRequest
+                    {
+                        Name = user.Name,
+                        NIK = user.PhoneNumber,
+                        Address = user.Address.Address1 + user.Address.Address2,
+                        City = user.Address.City != null ? user.Address.City : "My City",
+                        BirthDate = "01-02-2000",
+                        National = "Indonesia"
+                    }, user.Email);
+
                     await _dbPersistence.SaveChangesAsync();
 
                     return new StoreResponse
@@ -61,11 +77,11 @@ namespace AMH_MarketPlace.Services.Implement.StoreImplement
                         UserResponse = user,
                     };
                 });
-                return saveStore;
+                return transacCreateStore;
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while create Store");
             }
         }
 
@@ -80,14 +96,21 @@ namespace AMH_MarketPlace.Services.Implement.StoreImplement
                 if (storeFind == null) throw new NotFoundException("You not have Store, Create first");
 
                 var s = storeFind.RateStore;
-                //var totalS = s.Rate1 + s.Rate2 + s.Rate3 + s.Rate4 + s.Rate4 + s.Rate5;
-
-                //var ratio =
-                //    ((s.Rate1 * 1)
-                //    + (s.Rate2 * 2)
-                //    + (s.Rate3 * 3)
-                //    + (s.Rate4 * 4)
-                //    + (s.Rate5 * 5)) / (totalS);
+                var totalS = s.Rate1 + s.Rate2 + s.Rate3 + s.Rate4 + s.Rate5;
+                decimal ratio;
+                if (totalS == 0)
+                {
+                    ratio = 0;
+                }
+                else
+                {
+                    ratio =
+                        (decimal)(((s.Rate1 * 1)
+                        + (s.Rate2 * 2)
+                        + (s.Rate3 * 3)
+                        + (s.Rate4 * 4)
+                        + (s.Rate5 * 5)) / totalS);
+                }
                 return new StoreResponse
                 {
                     Id = storeFind.Id.ToString(),
@@ -95,13 +118,13 @@ namespace AMH_MarketPlace.Services.Implement.StoreImplement
                     Description = storeFind.Description,
                     StoreImage = storeFind.StoreImage,
                     RateStore = storeFind.RateStore,
-                    RatioRate = 1,
+                    RatioRate = ratio,
                     UserResponse = user
                 };
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while get my Store");
             }
         }
 
@@ -109,8 +132,12 @@ namespace AMH_MarketPlace.Services.Implement.StoreImplement
         {
             try
             {
-                var rateUpdate = await _rateService.UpdateRateStore(numberRate, id);
-                return rateUpdate;
+                var transacUpdateRate = await _dbPersistence.ExecuteTransactionAsync(async () =>
+                {
+                    var rateUpdate = await _rateService.UpdateRateStore(numberRate, id);
+                    return rateUpdate;
+                });
+                return transacUpdateRate;
             }
             catch (Exception)
             {
@@ -124,44 +151,45 @@ namespace AMH_MarketPlace.Services.Implement.StoreImplement
             {
                 var userFind = await _userService.GetMyUser(email);
                 var storeFind = await _repository.Find(s => s.UserId.Equals(Guid.Parse(userFind.Id)), new[] {"StoreImage", "RateStore"});
-
-                var imageUpdate = await _storeImageService.UpdateStoreImage(req.StoreImage, storeFind.StoreImageId);
-                var update = new Store
+                if (storeFind == null) throw new NotFoundException("Store not found");
+                var transacUpdateStore = await _dbPersistence.ExecuteTransactionAsync(async () =>
                 {
-                    Id = storeFind.Id,
-                    Name = req.Name,
-                    Description = req.Description,
-                    StoreImage = imageUpdate,
-                    StoreImageId = storeFind.StoreImageId,
-                    RateStore = storeFind.RateStore,
-                    RateStoreId = storeFind.RateStoreId,
-                    UserId = storeFind.UserId
-                };
-                var storeUpdate = _repository.Update(update);
 
-                var s = storeFind.RateStore;
-                var totalS = s.Rate1 + s.Rate2 + s.Rate3 + s.Rate4 + s.Rate4 + s.Rate5;
+                    var image = await _storeImageService.UpdateStoreImage(req.StoreImage, storeFind.StoreImageId);
 
-                var ratio =
-                    ((s.Rate1 * 1)
-                    + (s.Rate2 * 2)
-                    + (s.Rate3 * 3)
-                    + (s.Rate4 * 4)
-                    + (s.Rate5 * 5)) / (totalS);
-                return new StoreResponse
-                {
-                    Id = storeUpdate.Id.ToString(),
-                    Name = storeUpdate.Name,
-                    Description = storeUpdate.Description,
-                    StoreImage = storeUpdate.StoreImage,
-                    RateStore = storeUpdate.RateStore,
-                    RatioRate = (decimal)ratio,
-                    UserResponse = userFind,
-                };
+                    storeFind.Name = req.Name == null ? storeFind.Name : req.Name;
+                    storeFind.Description = req.Description == null ? storeFind.Description : req.Description;
+                    storeFind.StoreImage = req.StoreImage == null ? storeFind.StoreImage : image;
+
+                    var updateStore = _repository.Update(storeFind);
+                    await _dbPersistence.SaveChangesAsync();
+
+                    var s = updateStore.RateStore;
+                    var totalS = s.Rate1 + s.Rate2 + s.Rate3 + s.Rate4 + s.Rate5;
+
+                    var ratio = (decimal?)
+                        ((s.Rate1 * 1)
+                        + (s.Rate2 * 2)
+                        + (s.Rate3 * 3)
+                        + (s.Rate4 * 4)
+                        + (s.Rate5 * 5)) / totalS;
+                    return new StoreResponse
+                    {
+                        Id = updateStore.Id.ToString(),
+                        Name = updateStore.Name,
+                        Description = updateStore.Description,
+                        StoreImage = updateStore.StoreImage,
+                        RateStore = updateStore.RateStore,
+                        RatioRate = (decimal)ratio,
+                        UserResponse = userFind
+                    };
+                });
+
+                return transacUpdateStore;
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while update Store");
             }
         }
     }

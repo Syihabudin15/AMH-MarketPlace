@@ -26,7 +26,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while Create User Address");
             }
         }
 
@@ -47,7 +47,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error get My User Address");
             }
         }
 
@@ -75,7 +75,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while update My User Address");
             }
         }
     }

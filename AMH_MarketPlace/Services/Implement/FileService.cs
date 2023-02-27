@@ -6,6 +6,13 @@ namespace AMH_MarketPlace.Services.Implement
 {
     public class FileService : IFileService
     {
+        public async Task<string> DeleteFile(string path)
+        {
+            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), path);
+            File.Delete(fullPath);
+            return $"{path} has deleted";
+        }
+
         public async Task<string> SaveFile(IFormFile file, string forWhat)
         {
             var folderName = forWhat == "Store" ? Path.Combine("Resource", "Image", "Store") : Path.Combine("Resource", "Image", "Product");

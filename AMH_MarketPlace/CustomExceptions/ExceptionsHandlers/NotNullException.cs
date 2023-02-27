@@ -5,5 +5,9 @@
         public NotNullException(string[] message)
         {
         }
+
+        public NotNullException(string? message) : base(message)
+        {
+        }
     }
 }

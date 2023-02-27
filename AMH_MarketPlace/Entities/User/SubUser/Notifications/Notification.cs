@@ -8,7 +8,7 @@ namespace AMH_MarketPlace.Entities.User.SubUser.Notifications
     {
         [Key, Column(name: "id")] public Guid Id { get; set; }
         [Column(name: "title", TypeName = "Varchar(255)")] public string? Title { get; set; }
-        [Column(name: "body")] public string? Body { get; set; }
+        [Column(name: "body", TypeName = "text")] public string? Body { get; set; }
         [Column(name: "created_at")] public DateTime CreatedAt { get; set; }
         [Column(name: "user_id")] public Guid? UserId { get; set; }
         [Column(name: "is_read_id")] public Guid NotifReadId { get; set; }

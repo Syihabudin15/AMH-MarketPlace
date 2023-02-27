@@ -87,3 +87,4 @@ D:\Coding\AMH_MarketPlace\AMH_MarketPlace\obj\Debug\net6.0\refint\AMH_MarketPlac
 D:\Coding\AMH_MarketPlace\AMH_MarketPlace\obj\Debug\net6.0\AMH_MarketPlace.pdb
 D:\Coding\AMH_MarketPlace\AMH_MarketPlace\obj\Debug\net6.0\AMH_MarketPlace.genruntimeconfig.cache
 D:\Coding\AMH_MarketPlace\AMH_MarketPlace\obj\Debug\net6.0\ref\AMH_MarketPlace.dll
+D:\Coding\AMH_MarketPlace\AMH_MarketPlace\bin\Debug\net6.0\Newtonsoft.Json.dll

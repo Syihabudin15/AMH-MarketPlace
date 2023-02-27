@@ -33,6 +33,11 @@ namespace AMH_MarketPlace.CustomExceptions.Middlewares
                 await HandleExceptionAsync(context, e);
                 _logger.LogError(e.Message);
             }
+            catch (ForbidenException e)
+            {
+                await HandleExceptionAsync(context, e);
+                _logger.LogError(e.Message);
+            }
             catch (Exception e)
             {
                 await HandleExceptionAsync(context, e);
@@ -59,6 +64,11 @@ namespace AMH_MarketPlace.CustomExceptions.Middlewares
                 case NotNullException:
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     errorResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                    errorResponse.Message = new[] { exception.Message };
+                    break;
+                case ForbidenException:
+                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    errorResponse.StatusCode = (int)HttpStatusCode.Forbidden;
                     errorResponse.Message = new[] { exception.Message };
                     break;
                 case not null:

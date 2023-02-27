@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+RZJZttywaz/5sH/4Zt92w4BOVA9VyqE0jUbb3EQwqbCBnpBfYF9VrMMlQfMeU1tlW7zP+0wLJ39h2cTVXZsmQ==",
+  "dgSpecHash": "9Rx/Kp3ku/rgiY/M1/iEucsNoxRQfA+p+cbMkQ1hyoUFPqeGR0uZsSN5brgxVzkRUmgt/36x9KGcBbMwfWVeVQ==",
   "success": true,
   "projectFilePath": "D:\\Coding\\AMH_MarketPlace\\AMH_MarketPlace\\AMH_MarketPlace.csproj",
   "expectedPackageFiles": [
@@ -46,6 +46,7 @@
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\LENOVO\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",

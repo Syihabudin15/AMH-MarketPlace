@@ -8,7 +8,7 @@ namespace AMH_MarketPlace.Entities.Store.Product.Comment
     {
         [Key, Column(name: "id")] public Guid Id { get; set; }
         [Column(name: "rate_product")] public int RateProduct { get; set; }
-        [Column(name: "description", TypeName = "Varchar(500)")] public string? Description { get; set; }
+        [Column(name: "description", TypeName = "text")] public string? Description { get; set; }
         [Column(name: "product_id")] public Guid ProductId { get; set; }
     }
 }

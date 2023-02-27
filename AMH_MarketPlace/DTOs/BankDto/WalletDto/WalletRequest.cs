@@ -2,11 +2,11 @@
 {
     public class WalletRequest
     {
-        public string Name { get; set; } = null!;
-        public string NIK { get; set; } = null!;
-        public string BirthDate { get; set; } = null!;
-        public string Address { get; set; } = null!;
-        public string City { get; set; } = null!;
-        public string National { get; set; } = null!;
+        public string Name { get; set; } = string.Empty;
+        public string NIK { get; set; } = string.Empty;
+        public string BirthDate { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
+        public string National { get; set; } = string.Empty;
     }
 }

@@ -4,13 +4,21 @@ using AMH_MarketPlace.Security.JwtUtils;
 using AMH_MarketPlace.Services.Implement;
 using AMH_MarketPlace.Services.Implement.AuthImplement;
 using AMH_MarketPlace.Services.Implement.StoreImplement;
+using AMH_MarketPlace.Services.Implement.StoreImplement.ProductImplement;
+using AMH_MarketPlace.Services.Implement.TransactionImplement;
+using AMH_MarketPlace.Services.Implement.TransactionImplement.PurchaseProductImplement;
 using AMH_MarketPlace.Services.Implement.UserImplement;
 using AMH_MarketPlace.Services.Implement.UserImplement.NotifImplement;
+using AMH_MarketPlace.Services.Implement.WalletImplement;
 using AMH_MarketPlace.Services.Interface;
 using AMH_MarketPlace.Services.Interface.AuthInterface;
 using AMH_MarketPlace.Services.Interface.StoreInterface;
+using AMH_MarketPlace.Services.Interface.StoreInterface.ProductInterface;
+using AMH_MarketPlace.Services.Interface.TransactionInterface;
+using AMH_MarketPlace.Services.Interface.TransactionInterface.PurchaseProduct;
 using AMH_MarketPlace.Services.Interface.UserInterface;
 using AMH_MarketPlace.Services.Interface.UserInterface.NotifInterface;
+using AMH_MarketPlace.Services.Interface.WalletInterface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -45,6 +53,13 @@ namespace AMH_MarketPlace.Extentions
             services.AddTransient<IStoreImageService, StoreImageService>();
             services.AddTransient<IRateService, RateService>();
             services.AddTransient<IStoreService, StoreService>();
+            services.AddTransient<IWalletService, WalletService>();
+            services.AddTransient<IUserWalletService, UserWalletService>();
+            services.AddTransient<ICategoryProductService, CategoryProductService>();
+            services.AddTransient<IProductImageService, ProductImageService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ITransactionService, TransactionService>();
+            services.AddTransient<IPurchaseProductServie, PurchaseProductService>();
 
             // Middleware Service
             services.AddScoped<MiddlewareException>();

@@ -49,7 +49,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement.NotifImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while Create Notification");
             }
         }
 
@@ -71,7 +71,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement.NotifImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while get All My Notification Info");
             }
         }
 
@@ -93,7 +93,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement.NotifImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while get All Notification Promo");
             }
         }
 
@@ -121,7 +121,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement.NotifImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while Update status IsRead Notification");
             }
         }
     }

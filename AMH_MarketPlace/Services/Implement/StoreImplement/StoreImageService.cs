@@ -58,17 +58,14 @@ namespace AMH_MarketPlace.Services.Implement.StoreImplement
             if (file == null) return imageFind;
 
             var updateOrSave = await _fileService.UpdateFile(file, imageFind.FilePath, "Store");
+            imageFind.FileName = file.FileName;
+            imageFind.FileSize = file.Length;
+            imageFind.FilePath = updateOrSave;
+            imageFind.ContenType = file.ContentType;
 
-            var updateStoreImage = _repository.Update(new StoreImage
-            {
-                Id = imageFind.Id,
-                FileName = file.Name,
-                FileSize = file.Length,
-                FilePath = updateOrSave,
-                ContenType = file.ContentType
-            });
-
+            var updateStoreImage = _repository.Update(imageFind);
             await _dbPersistence.SaveChangesAsync();
+
             return updateStoreImage;
 
         }

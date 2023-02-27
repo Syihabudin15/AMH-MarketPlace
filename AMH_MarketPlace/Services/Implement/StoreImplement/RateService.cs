@@ -17,9 +17,18 @@ namespace AMH_MarketPlace.Services.Implement.StoreImplement
 
         public async Task<RateStore> CreateRateStore(RateStore rateStore)
         {
-            var rate = await _repository.Save(rateStore);
+            var rate = new RateStore
+            {
+                Id = rateStore.Id,
+                Rate1 = 0,
+                Rate2 = 0,
+                Rate3 = 0,
+                Rate4 = 0,
+                Rate5 = 0
+            };
+            var saveRate = await _repository.Save(rate);
             await _dbPersistence.SaveChangesAsync();
-            return rate;
+            return saveRate;
         }
 
         public async Task<RateStore> UpdateRateStore(int numberRate, string id)

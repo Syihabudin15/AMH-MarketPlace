@@ -22,6 +22,192 @@ namespace AMH_MarketPlace.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Bank.Wallet.UserWallet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("address");
+
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("birth_date");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("Varchar(100)")
+                        .HasColumnName("city");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_verified");
+
+                    b.Property<string>("NIK")
+                        .HasColumnType("Varchar(16)")
+                        .HasColumnName("nik");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("Varchar(150)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("National")
+                        .HasColumnType("Varchar(100)")
+                        .HasColumnName("national");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
+
+                    b.Property<Guid>("WalletId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("wallet_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NIK")
+                        .IsUnique()
+                        .HasFilter("[nik] IS NOT NULL");
+
+                    b.HasIndex("WalletId");
+
+                    b.ToTable("m_user_wallet");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Bank.Wallet.Wallet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<long>("Balance")
+                        .HasColumnType("bigint")
+                        .HasColumnName("balance");
+
+                    b.Property<string>("NoWallet")
+                        .IsRequired()
+                        .HasColumnType("Varchar(17)")
+                        .HasColumnName("no_wallet");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("m_wallet");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Store.Product.CategoryProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("Varchar(100)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("m_category_product");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Store.Product.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CategoryProductId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("category_product_id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("Varchar(150)")
+                        .HasColumnName("name");
+
+                    b.Property<long>("Price")
+                        .HasColumnType("bigint")
+                        .HasColumnName("price");
+
+                    b.Property<float?>("SizeCm")
+                        .HasColumnType("real")
+                        .HasColumnName("size_cm");
+
+                    b.Property<float?>("SizeInch")
+                        .HasColumnType("real")
+                        .HasColumnName("size_inch");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("int")
+                        .HasColumnName("stock");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("store_id");
+
+                    b.Property<float?>("WeightG")
+                        .HasColumnType("real")
+                        .HasColumnName("weight_g");
+
+                    b.Property<float?>("WeightKg")
+                        .HasColumnType("real")
+                        .HasColumnName("weight_kg");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("m_product");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Store.Product.ProductImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ContenType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("conten_type");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("file_name");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("file_path");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint")
+                        .HasColumnName("file_size");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("product_id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("m_product_image");
+                });
+
             modelBuilder.Entity("AMH_MarketPlace.Entities.Store.RateStore", b =>
                 {
                     b.Property<Guid>("Id")
@@ -29,23 +215,23 @@ namespace AMH_MarketPlace.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
-                    b.Property<int?>("Rate1")
+                    b.Property<int>("Rate1")
                         .HasColumnType("int")
                         .HasColumnName("rate1");
 
-                    b.Property<int?>("Rate2")
+                    b.Property<int>("Rate2")
                         .HasColumnType("int")
                         .HasColumnName("rate2");
 
-                    b.Property<int?>("Rate3")
+                    b.Property<int>("Rate3")
                         .HasColumnType("int")
                         .HasColumnName("rate3");
 
-                    b.Property<int?>("Rate4")
+                    b.Property<int>("Rate4")
                         .HasColumnType("int")
                         .HasColumnName("rate4");
 
-                    b.Property<int?>("Rate5")
+                    b.Property<int>("Rate5")
                         .HasColumnType("int")
                         .HasColumnName("rate5");
 
@@ -63,7 +249,7 @@ namespace AMH_MarketPlace.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("Varchar(500)")
+                        .HasColumnType("text")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
@@ -121,6 +307,183 @@ namespace AMH_MarketPlace.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("m_store_image");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Transaction.TransacPurchase.PurchaseProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("product_id");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int")
+                        .HasColumnName("quantity");
+
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("transaction_id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("m_purchase_product");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Transaction.TransacWallet.TopUpWallet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint")
+                        .HasColumnName("amount");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("Varchar(10)")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("transaction_id");
+
+                    b.Property<Guid>("WalletId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("wallet_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransactionId");
+
+                    b.HasIndex("WalletId");
+
+                    b.ToTable("m_topup_wallet");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Transaction.TransacWallet.TransferWallet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint")
+                        .HasColumnName("amount");
+
+                    b.Property<string>("NoWalletTarget")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("no_wallet_target");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("Varchar(10)")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("transaction_id");
+
+                    b.Property<Guid>("WalletId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("wallet_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransactionId");
+
+                    b.HasIndex("WalletId");
+
+                    b.ToTable("m_transfer_wallet");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Transaction.TransacWallet.WithdrawalWallet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint")
+                        .HasColumnName("amount");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("Varchar(10)")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("transaction_id");
+
+                    b.Property<Guid>("WalletId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("wallet_id");
+
+                    b.Property<Guid>("bankId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("bank_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransactionId");
+
+                    b.HasIndex("WalletId");
+
+                    b.ToTable("m_withdrawal_wallet");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Transaction.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("Varchar(50)")
+                        .HasColumnName("description");
+
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("Varchar(50)")
+                        .HasColumnName("order_id");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("Varchar(20)")
+                        .HasColumnName("payment_method");
+
+                    b.Property<string>("ReferencePg")
+                        .HasColumnType("Varchar(50)")
+                        .HasColumnName("reference_pg");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("Varchar(15)")
+                        .HasColumnName("status");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("transaction_date");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("m_transaction");
                 });
 
             modelBuilder.Entity("AMH_MarketPlace.Entities.User.Credential", b =>
@@ -248,7 +611,7 @@ namespace AMH_MarketPlace.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Body")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("text")
                         .HasColumnName("body");
 
                     b.Property<Guid>("CategoryNotificationId")
@@ -316,6 +679,28 @@ namespace AMH_MarketPlace.Migrations
                     b.ToTable("m_user");
                 });
 
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Bank.Wallet.UserWallet", b =>
+                {
+                    b.HasOne("AMH_MarketPlace.Entities.Bank.Wallet.Wallet", "Wallet")
+                        .WithMany()
+                        .HasForeignKey("WalletId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Wallet");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Store.Product.Product", b =>
+                {
+                    b.HasOne("AMH_MarketPlace.Entities.Store.Store", "Store")
+                        .WithMany()
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Store");
+                });
+
             modelBuilder.Entity("AMH_MarketPlace.Entities.Store.Store", b =>
                 {
                     b.HasOne("AMH_MarketPlace.Entities.Store.RateStore", "RateStore")
@@ -333,6 +718,74 @@ namespace AMH_MarketPlace.Migrations
                     b.Navigation("RateStore");
 
                     b.Navigation("StoreImage");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Transaction.TransacWallet.TopUpWallet", b =>
+                {
+                    b.HasOne("AMH_MarketPlace.Entities.Transaction.Transaction", "Transaction")
+                        .WithMany()
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AMH_MarketPlace.Entities.Bank.Wallet.Wallet", "Wallet")
+                        .WithMany()
+                        .HasForeignKey("WalletId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Transaction");
+
+                    b.Navigation("Wallet");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Transaction.TransacWallet.TransferWallet", b =>
+                {
+                    b.HasOne("AMH_MarketPlace.Entities.Transaction.Transaction", "Transaction")
+                        .WithMany()
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AMH_MarketPlace.Entities.Bank.Wallet.Wallet", "Wallet")
+                        .WithMany()
+                        .HasForeignKey("WalletId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Transaction");
+
+                    b.Navigation("Wallet");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Transaction.TransacWallet.WithdrawalWallet", b =>
+                {
+                    b.HasOne("AMH_MarketPlace.Entities.Transaction.Transaction", "Transaction")
+                        .WithMany()
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AMH_MarketPlace.Entities.Bank.Wallet.Wallet", "Wallet")
+                        .WithMany()
+                        .HasForeignKey("WalletId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Transaction");
+
+                    b.Navigation("Wallet");
+                });
+
+            modelBuilder.Entity("AMH_MarketPlace.Entities.Transaction.Transaction", b =>
+                {
+                    b.HasOne("AMH_MarketPlace.Entities.User.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AMH_MarketPlace.Entities.User.Credential", b =>

@@ -26,7 +26,7 @@ namespace AMH_MarketPlace.Services.Implement.UserImplement.NotifImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while get or save Notification IsRead table");
             }
         }
     }

@@ -58,7 +58,7 @@ namespace AMH_MarketPlace.Services.Implement.AuthImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while Login");
             }
         }
 
@@ -109,7 +109,7 @@ namespace AMH_MarketPlace.Services.Implement.AuthImplement
             }
             catch (Exception)
             {
-                throw new Exception();
+                throw new Exception("Error while register User");
             }
         }
     }
